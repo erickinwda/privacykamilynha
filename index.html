@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="pt-BR">
 <!-- Mirrored from exclusivoprivacy.shop/site/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 06 Feb 2026 09:00:41 GMT -->
 <head>
-<!-- Meta Pixel Code -->
+<head>
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -11,21 +11,36 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
+
 fbq('init', '3106420649560520');
-fbq('track', 'PageView');
+
+const metaEventId = 'pv_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+window.__META_EVENT_ID__ = metaEventId;
+
+
+fbq('track', 'PageView', {}, { eventID: metaEventId });
+
+
+fetch('/api/meta', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    event_name: 'PageView',
+    event_id: metaEventId,
+    url: window.location.href
+  })
+});
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=3106420649560520&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
- <script>
-  window.pixelId = "68e1ed1a268202ed95dda022";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-  document.head.appendChild(a);
+
+<script>
+window.pixelId = "68e1ed1a268202ed95dda022";
+var a = document.createElement("script");
+a.async = true;
+a.defer = true;
+a.src = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
+document.head.appendChild(a);
 </script>
+
 <script
   src="https://cdn.utmify.com.br/scripts/utms/latest.js"
   data-utmify-prevent-xcod-sck
