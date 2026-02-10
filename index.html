@@ -19,7 +19,8 @@
 
 fbq('init', '3106420649560520');
 
-const metaEventId = 'pv_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+const metaEventId =
+  'pv_' + Date.now() + '_' + Math.random().toString(36).slice(2);
 
 fbq('track', 'PageView', {}, { eventID: metaEventId });
 
@@ -33,6 +34,7 @@ fetch('/api/meta', {
   })
 });
 </script>
+
 <script>
 window.pixelId = "68e1ed1a268202ed95dda022";
 var a = document.createElement("script");
@@ -41,11 +43,12 @@ a.defer = true;
 a.src = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
 document.head.appendChild(a);
 </script>
+
 <script
   src="https://cdn.utmify.com.br/scripts/utms/latest.js"
   data-utmify-prevent-xcod-sck
   data-utmify-prevent-subids
-  asyn
+  async
   defer
 ></script>
 
@@ -1440,7 +1443,40 @@ document.head.appendChild(a);
               </div>
             </div>
           </div>
+          <script>
+function metaInitiateCheckout(url, value) {
+  try {
+    const eventId =
+      'ic_' + Date.now() + '_' + Math.random().toString(36).slice(2);
 
+    if (typeof fbq === 'function') {
+      fbq('track', 'InitiateCheckout', {
+        value: value || 0,
+        currency: 'BRL'
+      }, { eventID: eventId });
+    }
+
+    fetch('/api/meta', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event_name: 'InitiateCheckout',
+        event_id: eventId,
+        url: window.location.href
+      })
+    }).catch(()=>{});
+
+    setTimeout(function () {
+      window.location.href = url;
+    }, 250);
+
+  } catch(e) {
+    window.location.href = url;
+  }
+
+  return false; // 🔥 ISSO É O SEGREDO
+}
+</script>
           <!-- Novo painel de Assinaturas -->
           <div class="pricing-panel">
             <h3>Assinaturas</h3>
@@ -1450,8 +1486,8 @@ document.head.appendChild(a);
             <a class="plan-primary"
    role="button"
    aria-label="Assinar 30 dias por R$ 14,90"
-   href="javascript:void(0);"
-   onclick="metaInitiateCheckout('https://checkout.privacy-kamilynha.site/30d', 14.90)">
+   href="#"
+   onclick="return metaInitiateCheckout('https://checkout.privacy-kamilynha.site/30d', 14.90)">
   <span class="plan-title">30 Dias</span>
   <span class="plan-price">R$ 14,90</span>
 </a>
@@ -1470,21 +1506,40 @@ document.head.appendChild(a);
                 <span class="chevron">⌄</span>
               </div>
 
-              <a class="plan-outline subscription-link featured" role="button" href="https://checkout.privacy-kamilynha.site/14d">
-                <span class="left"><span class="plan-label">14 DIAS</span> <span class="mini-badge best">Mais popular 🔥</span></span>
-                <span class="right">R$ 12,33</span>
-              </a>
+              <a class="plan-outline subscription-link featured"
+   role="button"
+   href="#"
+   onclick="return metaInitiateCheckout('https://checkout.privacy-kamilynha.site/14d', 12.33)">
+  <span class="left">
+    <span class="plan-label">14 DIAS</span>
+    <span class="mini-badge best">Mais popular 🔥</span>
+  </span>
+  <span class="right">R$ 12,33</span>
+</a>
               
 
-              <a class="plan-outline subscription-link" role="button" href="https://checkout.privacy-kamilynha.site/90d">
-                <span class="left"><span class="plan-label">3 meses</span> <span class="mini-badge best">Melhor oferta</span></span>
-                <span class="right">R$ 19,90</span>
-              </a>
+              <a class="plan-outline subscription-link"
+   role="button"
+   href="#"
+   onclick="return metaInitiateCheckout('https://checkout.privacy-kamilynha.site/90d', 19.90)">
+  <span class="left">
+    <span class="plan-label">3 meses</span>
+    <span class="mini-badge best">Melhor oferta</span>
+  </span>
+  <span class="right">R$ 19,90</span>
+</a>
 
-              <a class="plan-outline subscription-link" role="button" href="https://checkout.privacy-kamilynha.site/_365">
-                <span class="left"><span class="plan-label">Vitalício</span> <span class="mini-badge premium">Exclusivo</span></span>
-                <span class="right">R$ 34,90</span>
-              </a>
+
+              <a class="plan-outline subscription-link"
+   role="button"
+   href="#"
+   onclick="return metaInitiateCheckout('https://checkout.privacy-kamilynha.site/_365', 34.90)">
+  <span class="left">
+    <span class="plan-label">Vitalício</span>
+    <span class="mini-badge premium">Exclusivo</span>
+  </span>
+  <span class="right">R$ 34,90</span>
+</a>
             </div>
           </div>
 
@@ -1669,27 +1724,7 @@ document.head.appendChild(a);
     </p>
     </main>
     <script type="text/javascript">
-      function redirecionarBotaoPopup() {
-        // Redireciona para o link desejado
-        try {
-          window.location.href = "https://privacybrasiloficial.site/kamylinha/" + window.location.search;
-        } catch (e) {
-          window.location.href = "https://privacybrasiloficial.site/kamylinha/";
-        }
-      }
-      function redirecionarBotaoPrincipal() {
-        // Redireciona para o link desejado
-        window.location.href =
-          "https://ambienteseguro.org.ua/c/a313377dce" + window.location.search;
-      }
-      function redirecionarBotaoPrincipal2() {
-        // Redireciona para o link desejado
-        window.location.href =
-          "https://ambienteseguro.org.ua/c/a313377dce" + window.location.search;
-      }
-    </script>
-
-        <!-- Script FAQ -->
+       <!-- Script FAQ -->
         <script type="f6968d3933020259f586cb25-module">
       document.querySelectorAll(".faq-question").forEach((button) => {
         button.addEventListener("click", () => {
