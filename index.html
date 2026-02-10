@@ -2068,4 +2068,67 @@ document.head.appendChild(a);
 
 
 </body>
+  <script>
+(function () {
+  function getPlanData(url) {
+    if (url.includes('/30d')) return { id: '30d', name: 'Plano 30 dias', value: 14.90 };
+    if (url.includes('/14d')) return { id: '14d', name: 'Plano 14 dias', value: 12.33 };
+    if (url.includes('/90d')) return { id: '90d', name: 'Plano 3 meses', value: 19.90 };
+    if (url.includes('/_365')) return { id: '365', name: 'Plano vitalício', value: 34.90 };
+    return null;
+  }
+
+  function sendInitiateCheckout(plan) {
+    const eventId =
+      'init_' + plan.id + '_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+
+    // PIXEL
+    if (typeof fbq === 'function') {
+      fbq('track', 'InitiateCheckout', {
+        value: plan.value,
+        currency: 'BRL',
+        content_name: plan.name,
+        content_ids: [plan.id]
+      }, { eventID: eventId });
+    }
+
+    // CAPI
+    fetch('/api/meta', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event_name: 'InitiateCheckout',
+        event_id: eventId,
+        value: plan.value,
+        currency: 'BRL',
+        content_name: plan.name,
+        content_ids: [plan.id],
+        url: window.location.href,
+        utm_source: sessionStorage.getItem('utm_source'),
+        utm_medium: sessionStorage.getItem('utm_medium'),
+        utm_campaign: sessionStorage.getItem('utm_campaign'),
+        utm_content: sessionStorage.getItem('utm_content'),
+        utm_term: sessionStorage.getItem('utm_term')
+      })
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    const el = e.target.closest('a, button');
+    if (!el) return;
+
+    let url =
+      el.getAttribute('href') ||
+      el.getAttribute('onclick')?.match(/https?:\/\/[^'"]+/)?.[0];
+
+    if (!url || !url.includes('checkout.privacy-kamilynha.site')) return;
+
+    const plan = getPlanData(url);
+    if (!plan) return;
+
+    sendInitiateCheckout(plan);
+  });
+})();
+</script>
+
 </html>
